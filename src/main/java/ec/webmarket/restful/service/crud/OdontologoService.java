@@ -1,13 +1,16 @@
 package ec.webmarket.restful.service.crud;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ec.webmarket.restful.domain.Cita;
 import ec.webmarket.restful.domain.Odontologo;
 import ec.webmarket.restful.dto.v1.OdontologoDTO;
+import ec.webmarket.restful.persistence.CitaRepository;
 import ec.webmarket.restful.persistence.OdontologoRepository;
 import ec.webmarket.restful.service.GenericCrudServiceImpl;
 
@@ -16,6 +19,9 @@ public class OdontologoService extends GenericCrudServiceImpl<Odontologo, Odonto
 	
 	@Autowired
 	private OdontologoRepository repository;
+	
+	@Autowired
+	private CitaRepository citaRepository;
 	
 	private ModelMapper modelMapper = new ModelMapper();
 	
@@ -33,5 +39,10 @@ public class OdontologoService extends GenericCrudServiceImpl<Odontologo, Odonto
 	public OdontologoDTO mapToDto(Odontologo domain) {
 		return modelMapper.map(domain, OdontologoDTO.class);
 	}
+	
+	public List<Cita> obtenerCitasAsignadas(String cedula) {
+	    return citaRepository.findByOdontologoCedula(cedula);
+	}
+
 	
 }
